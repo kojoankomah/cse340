@@ -6,6 +6,7 @@ CREATE TYPE public.account_type AS ENUM
 ALTER TYPE public.account_type
     OWNER TO cse340;
 
+
 -- Creatting a Table Structure for table  `classification`
 
 CREATE TABLE public.classification (
@@ -60,21 +61,19 @@ CREATE TABLE IF NOT EXISTS public.account(
 	account_password character varying NOT NULL,
 	account_type account_type NOT NULL DEFAULT 'Client'::account_type,
 	CONSTRAINT account_pkey PRIMARY KEY (account_id)
-)
-
+);
 
 
 -- Data for table `classification`
 
 INSERT INTO public.classification (classification_name)
-VALUES ('Custom',
-	'Sport',
-	'SUV',
-	'Truck',
-	'Sedan'
-	);
-
-
+VALUES 
+    ('Custom'),
+    ('Sport'),
+    ('SUV'),
+    ('Truck'),
+    ('Sedan');
+	
 
 -- Adding data to Inventory Table
 
@@ -273,4 +272,4 @@ UPDATE inventory
 UPDATE inventory 
     SET 
         inv_image = REPLACE(inv_image, '/images', '/images/vehicles'), 
-        inv_thumbnail = REPLACE(inv_thumbnail, '/image', '/image/vehicles');
+        inv_thumbnail = REPLACE(inv_thumbnail, '/images', '/images/vehicles');
