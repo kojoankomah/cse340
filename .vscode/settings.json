@@ -13,5 +13,6 @@
             "name": "Render.com",
             "connectString": "postgresql://cse340:z9l3ue09EHOdPfaRDudD26L1l7R9r81W@dpg-d34mund6ubrc73aept90-a.virginia-postgres.render.com/cse340_3mug"
         }
-    ]
+    ],
+    "liveServer.settings.port": 5501
 }
