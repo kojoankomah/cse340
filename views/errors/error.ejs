@@ -1,0 +1,19 @@
+  <div class="error-page">
+
+    <h1><%= title %></h1>
+
+    <div class="error-illustration">
+        <img src="/images/error/404-astronaut.svg" alt="Lost in Space" />
+    </div>
+
+    <p><%= message %></p>
+
+    <% if (title == "404" || title == "404 - Not Found" || title == 404) { %>
+        <p>🚀 Looks like you drifted off into uncharted space.</p>
+        <p>Don't worry — our space crew is working to beam you back.</p>
+    <% } else { %>
+        <p>😅 Something went wrong on our end — even the best astronauts get lost sometimes.</p>
+    <% } %>
+
+    <a href="/" class="btn">🛸 Take Me Home</a>
+    </div>
