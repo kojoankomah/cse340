@@ -25,6 +25,15 @@ Util.getNav = async function (req, res, next) {
   return list
 }
 
+
+/* ****************************************
+ * Middleware For Handling Errors
+ * Wrap other function in this for 
+ * General Error Handling
+ **************************************** */
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
+
 module.exports = Util
 
 
@@ -60,3 +69,33 @@ Util.buildClassificationGrid = async function(data){
   }
   return grid
 }
+
+
+Util.buildDetailView = async function (vehicle) {
+let price = Number(vehicle.inv_price).toLocaleString("en-US", {
+  style: "currency",
+  currency: "USD",
+})
+
+console.log(typeof vehicle.inv_price, vehicle.inv_price)
+
+  let mileage = vehicle.inv_miles.toLocaleString("en-US")
+
+  return `
+    <section class="vehicle-container">
+      <div class="vehicle-image">
+        <img src="${vehicle.inv_image}" alt="Image of ${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}">
+      </div>
+      <div class="vehicle-info">
+        <p class="info-head"><strong> ${vehicle.inv_make + ' ' + vehicle.inv_model} Details</strong></p>
+        <p class="price"><strong>Price:</strong> ${price}</p>
+        <p><strong>Mileage:</strong> ${mileage} miles</p>
+        <p><strong>Color:</strong> ${vehicle.inv_color}</p>
+        <p><strong>Description:</strong> ${vehicle.inv_description}</p>
+      </div>
+    </section>
+  `
+}
+
+
+module.exports = Util
