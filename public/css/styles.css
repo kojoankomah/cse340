@@ -181,7 +181,11 @@ footer {
   margin-top: 2rem;
 }
 
-
+footer a{
+  text-decoration: none;
+  background-color: #5911DF;
+  color: #ffff;
+}
 /* Error page style */
 
 .error-page {
