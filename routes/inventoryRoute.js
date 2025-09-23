@@ -19,7 +19,7 @@ router.get(
 
 // Intentional 500 error route
 router.get("/cause-error", (req, res, next) => {
-  next(new Error("🚨 Intentional 500 error triggered for testing purposes"))
+  next(new Error("Intentional 500 error triggered for testing purposes"))
 })
 
 

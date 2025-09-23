@@ -6,7 +6,7 @@ const invCont = {}
 // Existing function
 invCont.buildByClassificationId = async function (req, res, next) {
 
-//   throw new Error("🚨 Test error: Something went wrong!") // TEMP for testing
+//   throw new Error("Test error: Something went wrong!") // TEMP for testing
 
   const classification_id = req.params.classificationId
   const data = await invModel.getInventoryByClassificationId(classification_id)
@@ -20,7 +20,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
   })
 }
 
-// ✅ ADD THIS FUNCTION (otherwise it’s undefined!)
+// ADD THIS FUNCTION (otherwise it’s undefined!)
 invCont.buildByInvId = async function (req, res, next) {
   const inv_id = req.params.inv_id
   const data = await invModel.getInventoryByInvId(inv_id) // <- You'll create this next
