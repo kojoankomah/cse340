@@ -82,7 +82,7 @@ console.log(typeof vehicle.inv_price, vehicle.inv_price)
   let mileage = vehicle.inv_miles.toLocaleString("en-US")
 
   return `
-    <section class="vehicle-container">
+    <div class="vehicle-container">
       <div class="vehicle-image">
         <img src="${vehicle.inv_image}" alt="Image of ${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}">
       </div>
@@ -93,7 +93,7 @@ console.log(typeof vehicle.inv_price, vehicle.inv_price)
         <p><strong>Color:</strong> ${vehicle.inv_color}</p>
         <p><strong>Description:</strong> ${vehicle.inv_description}</p>
       </div>
-    </section>
+    </div>
   `
 }
 
