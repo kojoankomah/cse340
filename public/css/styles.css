@@ -297,6 +297,239 @@ footer a{
 }
 
 
+/* Login View */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background: #f8f9fa;
+  padding: 1rem;
+}
+
+.login-card {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.login-card h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.login-subtext {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.login-card label {
+  display: block;
+  text-align: left;
+  font-size: 0.85rem;
+  margin: 0.5rem 0 0.3rem;
+  color: #555;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.login-card input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.login-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.login-btn:hover {
+  background: #0056b3;
+}
+
+.register-link {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.register-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+
+
+
+/* === Page Layout === */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background: #f8f9fa;
+  padding: 2rem;
+}
+
+/* === Card Styling === */
+.register-card {
+  background: #fff;
+  padding: 2rem 2.5rem;
+  max-width: 420px;
+  width: 100%;
+  border-radius: 1rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+/* === Heading === */
+.register-card h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+/* === Form Styling === */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+}
+
+.register-form label {
+  font-weight: 600;
+  color: #444;
+}
+
+/* Base styles for inputs */
+.register-form input {
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 0.6rem;
+  font-size: 1rem;
+  width: 100%;
+  margin-bottom: 1rem;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+/* for keyboard users so they can clearly see which field is active: */
+.register-form input:focus-visible {
+  outline: 3px solid #0077cc;
+  outline-offset: 2px;
+}
+
+
+.register-form input:focus {
+  border-color: #0077cc;
+  box-shadow: 0 0 6px rgba(0, 119, 204, 0.25);
+  outline: none;
+}
+
+/* === Button Styling === */
+.btn-register {
+  background-color: #0077cc;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.btn-register:hover {
+  background-color: #005fa3;
+  transform: translateY(-2px);
+}
+
+/* === Flash Messages === */
+.flash-messages {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.flash-messages.error {
+  background: #ffe6e6;
+  color: #b30000;
+  border: 1px solid #ffb3b3;
+}
+
+.flash-messages.success {
+  background: #e6ffed;
+  color: #006622;
+  border: 1px solid #b3ffcc;
+}
+
+/* Invalid input styling (only after typing) */
+input:required:invalid:not(:placeholder-shown) {
+  border-color: #e63946;
+  background-image: url("/images/invalid.png");
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+}
+
+/* Valid input styling */
+input:required:valid {
+  border-color: #06d6a0;
+  background-image: url("/images/valid.png");
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+}
+
+
+textarea:required:invalid { border-color: #e63946; }
+textarea:required:valid { border-color: #06d6a0; }
+
+
+.password-requirements {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 0.5rem 0 1rem 0;
+  padding: 0.5rem;
+  background: #f8f8f8;
+  border-left: 4px solid #0077cc;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.password-requirements ul {
+  margin: 0.3rem 0 0 1.2rem;
+  padding: 0;
+}
+
 
 
 
@@ -337,4 +570,5 @@ footer a{
       grid-template-columns: 1fr;
     }
   }
+  
 }

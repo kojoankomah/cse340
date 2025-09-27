@@ -1,0 +1,52 @@
+<div class="login-container">
+  <section class="login-card">
+    <h1>Welcome Back</h1>
+    <p class="login-subtext">Log in to access your account</p>
+
+    <% if (messages.error) { %>
+      <p class="flash-messages error"><%= messages.error %></p>
+    <% } %>
+    <% if (messages.success) { %>
+      <p class="flash-messages success"><%= messages.success %></p>
+    <% } %>
+
+    <form method="post" action="/account/login" class="login-form">
+      <!-- Email Input -->
+      <label for="account_email">Email</label>
+      <input 
+        type="email" 
+        id="account_email" 
+        name="account_email" 
+        placeholder="you@example.com" 
+        required
+      >
+
+      <!-- Password Input + Requirements -->
+      <label for="account_password">Password</label>
+      <div class="password-requirements">
+        Passwords must be:
+        <ul>
+          <li>At least 12 characters long</li>
+          <li>Contain at least 1 uppercase letter</li>
+          <li>Contain at least 1 lowercase letter</li>
+          <li>Contain at least 1 number</li>
+          <li>Contain at least 1 special character</li>
+        </ul>
+      </div>
+      <input 
+        type="password" id="account_password" name="account_password"required
+        placeholder="Enter a strong password"
+        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+        title="Must be at least 12 characters, include upper & lower case letters, a number, and a special character."
+      >
+
+      <!-- Submit Button -->
+      <button type="submit" class="login-btn">Log In</button>
+    </form>
+
+    <p class="register-link">
+      Don’t have an account? 
+      <a href="/account/register">Create one here</a>
+    </p>
+  </section>
+</div>
