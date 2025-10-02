@@ -21,17 +21,7 @@ const app = express()
 const static = require("./routes/static")
 const baseController = require( "./controllers/baseController")
 const utilities = require("./utilities/") // ✅ ADD THIS LINE
-
-
-
-// Express Messages Middleware
-app.use(require('connect-flash')())
-app.use(function(req, res, next){
-  res.locals.messages = require('express-messages')(req, res)
-  next()
-})
-
-
+  
 // make the body-parser available to the application
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
@@ -50,6 +40,14 @@ app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-
   saveUninitialized: true,
   name: 'sessionId',
 }))
+
+
+// Express Messages Middleware
+app.use(require('connect-flash')())
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+})
 
 
 /* ***********************
