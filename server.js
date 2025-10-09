@@ -6,6 +6,7 @@
  * Require Statements
  *************************/
 
+const cookieParser = require("cookie-parser")
 const session = require("express-session")
 const bodyParser = require("body-parser")
 const path = require("path")
@@ -18,9 +19,10 @@ expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const inventoryRoute = require("./routes/inventoryRoute")
 const app = express()
-const static = require("./routes/static")
+
+const staticRoutes = require("./routes/static")
 const baseController = require( "./controllers/baseController")
-const utilities = require("./utilities/") // ✅ ADD THIS LINE
+const utilities = require("./utilities/index.js")
   
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -39,6 +41,10 @@ app.use(express.urlencoded({ extended: true }))
   saveUninitialized: true,
   name: 'sessionId',
 }))
+
+app.use(cookieParser())
+
+app.use(utilities.checkJWTToken)
 
 
 // Express Messages Middleware
@@ -63,7 +69,8 @@ app.set("layout", "./layouts/layout") // not at views root
  * Routes
  *************************/
 
-app.use(static)
+app.use(express.static(path.join(__dirname, "public")))
+
 
 // Serve favicon
 app.get("/favicon.ico", (req, res) => {
