@@ -1,17 +1,36 @@
 // Bring in the database connection
 const pool = require("../database/")  // connect to the database
+const bcrypt = require("bcryptjs")
+
 
 /* *****************************
 * Register new account
 * **************************** */
 async function registerAccount(account_firstname, account_lastname, account_email, account_password) {
   try {
+    // Hash the password before saving
+    const hashedPassword = await bcrypt.hash(account_password, 10)
+
     const sql = `
-      INSERT INTO account (account_firstname, account_lastname, account_email, account_password, account_type)
+      INSERT INTO account (
+        account_firstname,
+        account_lastname,
+        account_email,
+        account_password,
+        account_type
+      )
       VALUES ($1, $2, $3, $4, 'Client')
       RETURNING *;
     `
-    return await pool.query(sql, [account_firstname, account_lastname, account_email, account_password])
+
+    const result = await pool.query(sql, [
+      account_firstname,
+      account_lastname,
+      account_email,
+      hashedPassword, // store the hashed version, not plain
+    ])
+
+    return result.rows[0]
   } catch (error) {
     console.error("registerAccount error:", error)
     return null

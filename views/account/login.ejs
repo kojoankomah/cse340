@@ -3,11 +3,13 @@
     <h1>Welcome Back</h1>
     <p class="login-subtext">Log in to access your account</p>
 
-    <% if (messages.error) { %>
-      <p class="flash-messages error"><%= messages.error %></p>
-    <% } %>
-    <% if (messages.success) { %>
-      <p class="flash-messages success"><%= messages.success %></p>
+    <!-- Flash Message Display -->
+    <% if (messages && messages.notice) { %>
+      <div class="flash-message">
+        <% messages.notice.forEach(function(msg){ %>
+          <p><%= msg %></p>
+        <% }) %>
+      </div>
     <% } %>
 
     <form method="post" action="/account/login" class="login-form">
@@ -21,7 +23,7 @@
         required
       >
 
-      <!-- Password Input + Requirements -->
+      <!-- Password Input -->
       <label for="account_password">Password</label>
       <div class="password-requirements">
         Passwords must be:
@@ -34,13 +36,15 @@
         </ul>
       </div>
       <input 
-        type="password" id="account_password" name="account_password"required
+        type="password" 
+        id="account_password" 
+        name="account_password"
+        required
         placeholder="Enter a strong password"
         pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
         title="Must be at least 12 characters, include upper & lower case letters, a number, and a special character."
       >
 
-      <!-- Submit Button -->
       <button type="submit" class="login-btn">Log In</button>
     </form>
 
@@ -50,3 +54,14 @@
     </p>
   </section>
 </div>
+
+<script>
+  setTimeout(() => {
+    const flash = document.querySelector('.flash-message');
+    if (flash) {
+      flash.style.transition = 'opacity 0.5s ease';
+      flash.style.opacity = '0';
+      setTimeout(() => flash.remove(), 500);
+    }
+  }, 4000);
+</script>

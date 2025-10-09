@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken")
-require("dotenv").config()
+const bcrypt = require("bcryptjs")
 const utilities = require("../utilities/")
-const accountModel = require("../models/account-model") // Bring in the account model
+const accountModel = require("../models/account-model")
+require("dotenv").config()
 
 /* ****************************************
 *  Deliver login view
@@ -11,10 +12,10 @@ async function buildLogin(req, res, next) {
   res.render("account/login", {
     title: "Login",
     nav,
-    messages: req.flash(), // allows flash messages to work
+    messages: req.flash(), // always include this
+    errors: null,
   })
 }
-
 
 /* ****************************************
 *  Deliver registration view
@@ -24,11 +25,10 @@ async function buildRegister(req, res, next) {
   res.render("account/register", {
     title: "Register",
     nav,
-    messages: [], 
+    messages: req.flash(), // changed from [] to req.flash()
     errors: null,
   })
 }
-
 
 /* ****************************************
 *  Process Registration
@@ -45,23 +45,23 @@ async function registerAccount(req, res) {
   )
 
   if (regResult) {
-    req.flash(
-      "notice",
-      `Congratulations, you\'re registered ${account_firstname}. Please log in.`
-    )
+    req.flash("notice", `Congratulations, ${account_firstname}! Your account has been created. Please log in.`)
     res.status(201).render("account/login", {
       title: "Login",
       nav,
+      messages: req.flash(),
+      errors: null,
     })
   } else {
-    req.flash("notice", "Sorry, the registration failed.")
+    req.flash("notice", "Sorry, the registration failed. Please try again.")
     res.status(501).render("account/register", {
-      title: "Registration",
+      title: "Register",
       nav,
+      messages: req.flash(),
+      errors: null,
     })
   }
 }
-
 
 /* ****************************************
  *  Process login request
@@ -70,38 +70,53 @@ async function accountLogin(req, res) {
   let nav = await utilities.getNav()
   const { account_email, account_password } = req.body
   const accountData = await accountModel.getAccountByEmail(account_email)
+
   if (!accountData) {
     req.flash("notice", "Please check your credentials and try again.")
-    res.status(400).render("account/login", {
+    return res.status(400).render("account/login", {
       title: "Login",
       nav,
+      messages: req.flash(),
       errors: null,
       account_email,
     })
-    return
   }
+
   try {
     if (await bcrypt.compare(account_password, accountData.account_password)) {
       delete accountData.account_password
-      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
-      if(process.env.NODE_ENV === 'development') {
+      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" })
+      console.log("JWT created successfully:", accessToken)
+
+      if (process.env.NODE_ENV === 'development') {
         res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
       } else {
         res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
       }
+
+      // Flash welcome message and redirect
+      req.flash("notice", `Welcome back, ${accountData.account_firstname}!`)
       return res.redirect("/account/")
-    }
-    else {
-      req.flash("message notice", "Please check your credentials and try again.")
+    } else {
+      req.flash("notice", "Please check your credentials and try again.") // fixed key
       res.status(400).render("account/login", {
         title: "Login",
         nav,
+        messages: req.flash(),
         errors: null,
         account_email,
       })
     }
   } catch (error) {
-    throw new Error('Access Forbidden')
+    console.error("Login error:", error)
+    req.flash("notice", "Something went wrong during login. Please try again.")
+    res.status(500).render("account/login", {
+      title: "Login",
+      nav,
+      messages: req.flash(),
+      errors: null,
+      account_email,
+    })
   }
 }
 
@@ -110,13 +125,18 @@ async function accountLogin(req, res) {
  * ************************************ */
 async function buildAccountManagement(req, res, next) {
   let nav = await utilities.getNav()
-  req.flash("notice", "You're logged in.")
   res.render("account/management", {
     title: "Account Management",
     nav,
+    messages: req.flash(), // consistent with other routes
     errors: null,
-    notice: req.flash("notice")
   })
 }
 
-module.exports = {buildLogin, buildRegister, registerAccount,buildAccountManagement, accountLogin}
+module.exports = {
+  buildLogin,
+  buildRegister,
+  registerAccount,
+  buildAccountManagement,
+  accountLogin,
+}

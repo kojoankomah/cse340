@@ -3,23 +3,22 @@
     <h1><%= title %></h1>
 
     <!-- Flash Message Display -->
-    <% if (messages && messages.length > 0) { %>
-      <div class="flash-messages">
-        <% messages.forEach(function(message) { %>
-          <p><%= message %></p>
+    <% if (messages && messages.notice) { %>
+      <div class="flash-message">
+        <% messages.notice.forEach(function(msg){ %>
+          <p><%= msg %></p>
         <% }) %>
       </div>
     <% } %>
 
     <!-- Server-side Validation Errors -->
     <% if (errors) { %>
-    <ul class="notice">
+      <ul class="notice">
         <% errors.array().forEach(error => { %>
-        <li><%= error.msg %></li>
+          <li><%= error.msg %></li>
         <% }) %>
-    </ul>
+      </ul>
     <% } %>
-
 
     <form action="/account/register" method="post" class="register-form">
       <!-- First Name -->
@@ -76,3 +75,15 @@
     </form>
   </section>
 </div>
+
+<!-- Optional Flash Fade Script -->
+<script>
+  setTimeout(() => {
+    const flash = document.querySelector('.flash-message');
+    if (flash) {
+      flash.style.transition = 'opacity 0.5s ease';
+      flash.style.opacity = '0';
+      setTimeout(() => flash.remove(), 500);
+    }
+  }, 4000);
+</script>

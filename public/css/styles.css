@@ -472,18 +472,26 @@ footer a{
 }
 
 /* === Flash Messages === */
-.flash-messages {
-  margin-bottom: 1rem;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  font-size: 0.9rem;
+.flash-message {
+  background-color: #e6ffed;
+  color: #065f46;
+  border: 1px solid #34d399;
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
 }
 
-.flash-messages.error {
-  background: #ffe6e6;
-  color: #b30000;
-  border: 1px solid #ffb3b3;
+.flash-message p {
+  margin: 0;
 }
+
+.flash-message.error {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-color: #f87171;
+}
+
 
 .flash-messages.success {
   background: #e6ffed;
