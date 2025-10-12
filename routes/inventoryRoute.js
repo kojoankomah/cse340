@@ -1,5 +1,7 @@
-//inventoryRoute.js
-// Needed Resources 
+// *******************************8
+// ********* routes/inventoryRoute.js ********
+// *********************************
+// // Needed Resources 
 const express = require("express")
 const router = new express.Router() 
 const invController = require("../controllers/invController")
@@ -33,6 +35,7 @@ router.get(
 )
 
 
+
 // Add Classification View
 router.get(
   "/add-classification",
@@ -54,6 +57,11 @@ router.get(
   utilities.handleErrors(invController.buildAddInventory)
 )
 
+router.get(
+  "/getInventory/:classification_id",
+   utilities.handleErrors(invController.getInventoryJSON))
+
+
 // Process add inventory form
 router.post(
   "/add-inventory",
@@ -61,5 +69,17 @@ router.post(
   invValidate.checkInventoryData,
   utilities.handleErrors(invController.addInventory)
 )
+
+// Edit inventory view
+router.get("/edit/:inv_id", utilities.handleErrors(invController.buildEditInventory))
+
+router.post(
+  "/update/",
+  invValidate.inventoryRules(),
+  invValidate.checkUpdateData,
+  utilities.handleErrors(invController.updateInventory)
+)
+
+
 
 module.exports = router

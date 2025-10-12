@@ -58,8 +58,7 @@ app.use(function(req, res, next){
 /* ***********************
  * View Engine
  *************************/
-
-
+app.set("views", path.join(__dirname, "views"))  // 👈 Add this line
 app.set("view engine", "ejs")
 app.use(expressLayouts)
 app.set("layout", "./layouts/layout") // not at views root

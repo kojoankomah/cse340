@@ -1,5 +1,6 @@
-//index.js
-
+// *******************************8
+// ********* utilities/index.js ********
+// *********************************
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 

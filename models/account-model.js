@@ -1,3 +1,6 @@
+// *******************************8
+// ********* model/account-model.js ********
+// *********************************
 // Bring in the database connection
 const pool = require("../database/")  // connect to the database
 const bcrypt = require("bcryptjs")
