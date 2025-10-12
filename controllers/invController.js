@@ -246,7 +246,7 @@ const thumbnail = (typeof inv_thumbnail === "string" && inv_thumbnail.trim() !==
       throw new Error("Update failed - no rows returned")
     }
   } catch (error) {
-    console.error("❌ Error updating inventory:", error)
+    console.error("Error updating inventory:", error)
 
     const classificationListData = await invModel.getClassifications()
     const classificationList = await utilities.buildClassificationList(classificationListData, classification_id)
@@ -261,6 +261,52 @@ const thumbnail = (typeof inv_thumbnail === "string" && inv_thumbnail.trim() !==
       messages: req.flash("notice").concat(req.flash("error")),
       ...req.body,
     })
+  }
+}
+
+
+// Build delete confirmation view
+invCont.buildDeleteConfirm = async function (req, res, next) {
+  try {
+    const inv_id = parseInt(req.params.inv_id)
+    const data = await invModel.getInventoryByInvId(inv_id)
+    const nav = await utilities.getNav()
+
+    if (!data || data.length === 0) {
+      req.flash("notice", "Vehicle not found.")
+      return res.redirect("/inv/")
+    }
+
+    res.render("inventory/delete-confirm", {
+      title: `Delete ${data[0].inv_make} ${data[0].inv_model}`,
+      nav,
+      item: data[0],
+      errors: null,
+      messages: req.flash("notice"),
+    })
+  } catch (error) {
+    console.error("Error building delete confirmation view:", error)
+    next(error)
+  }
+}
+
+// Process vehicle deletion
+invCont.deleteInventoryItem = async function (req, res, next) {
+  try {
+    const inv_id = parseInt(req.body.inv_id)
+    const deleteResult = await invModel.deleteInventoryItem(inv_id)
+
+    if (deleteResult.rowCount > 0) {
+      req.flash("notice", "The vehicle was successfully deleted.")
+      res.redirect("/inv/")
+    } else {
+      req.flash("notice", "Sorry, the delete failed.")
+      res.redirect(`/inv/delete/${inv_id}`)
+    }
+  } catch (error) {
+    console.error("Error deleting vehicle:", error)
+    req.flash("notice", "An unexpected error occurred.")
+    res.redirect("/inv/")
   }
 }
 
