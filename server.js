@@ -7,6 +7,7 @@
  *************************/
 
 const cookieParser = require("cookie-parser")
+
 const session = require("express-session")
 const bodyParser = require("body-parser")
 const path = require("path")
@@ -45,6 +46,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
 app.use(utilities.checkJWTToken)
+
+app.use(utilities.checkLoginStatus)
 
 
 // Express Messages Middleware

@@ -1,0 +1,87 @@
+<!-- views/account/update.ejs -->
+
+<div class="update-container">
+
+  <!-- Flash Messages -->
+  <% if (messages && messages.notice) { %>
+    <div class="flash-message">
+      <% messages.notice.forEach(msg => { %>
+        <p><%= msg %></p>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <!-- Page Title -->
+  <h1>Update Account Information</h1>
+
+  <!-- Account Update Form -->
+  <section class="update-card">
+    <h2>Account Update</h2>
+
+    <!-- Server-side validation errors -->
+    <% if (errors && errors.accountUpdate && errors.accountUpdate.length > 0) { %>
+      <ul class="error-list">
+        <% errors.accountUpdate.forEach(error => { %>
+          <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+
+    <form action="/account/update/<%= accountData.account_id %>" method="post">
+      <!-- Hidden field for account ID -->
+      <input type="hidden" name="account_id" value="<%= accountData.account_id %>">
+
+      <label for="account_firstname">First Name</label>
+      <input type="text" id="account_firstname" name="account_firstname" 
+             value="<%= accountData.account_firstname %>" required>
+
+      <label for="account_lastname">Last Name</label>
+      <input type="text" id="account_lastname" name="account_lastname" 
+             value="<%= accountData.account_lastname %>" required>
+
+      <label for="account_email">Email</label>
+      <input type="email" id="account_email" name="account_email" 
+             value="<%= accountData.account_email %>" required>
+
+      <button type="submit">Save Changes</button>
+    </form>
+  </section>
+
+  <!-- Change Password Form -->
+  <section class="update-card">
+    <h2>Change Password</h2>
+
+    <% if (errors && errors.passwordChange && errors.passwordChange.length > 0) { %>
+      <ul class="error-list">
+        <% errors.passwordChange.forEach(error => { %>
+          <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+
+    <p>Enter a new password to update your current password. Must be at least 8 characters with uppercase, lowercase, number, and special character.</p>
+
+    <form action="/account/update-password/<%= accountData.account_id %>" method="post">
+      <input type="hidden" name="account_id" value="<%= accountData.account_id %>">
+
+      <label for="account_password">New Password</label>
+      <input type="password" id="account_password" name="account_password"
+             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}"
+             title="Password must be at least 8 characters, include uppercase, lowercase, number, and special character">
+
+      <button type="submit">Change Password</button>
+    </form>
+  </section>
+</div>
+
+<script>
+  // Auto-hide flash messages
+  setTimeout(() => {
+    const flash = document.querySelector('.flash-message');
+    if (flash) {
+      flash.style.transition = 'opacity 0.5s ease';
+      flash.style.opacity = '0';
+      setTimeout(() => flash.remove(), 500);
+    }
+  }, 4000);
+</script>

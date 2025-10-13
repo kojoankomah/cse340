@@ -32,4 +32,28 @@ regValidate.checkRegData,
   accountController.registerAccount
 )
 
+// Update account information view
+router.get(
+  "/update/:account_id",
+  utilities.checkJWTToken,
+  utilities.checkLoginStatus,
+  utilities.handleErrors(accountController.buildUpdateAccount)
+)
+
+// Account Info Update
+router.post(
+  "/update/:account_id",
+  utilities.checkJWTToken,
+  utilities.checkLoginStatus,
+  utilities.handleErrors(accountController.updateAccountInfo)
+)
+
+// Password Change
+router.post(
+  "/update-password/:account_id",
+  utilities.checkJWTToken,
+  utilities.checkLoginStatus,
+  utilities.handleErrors(accountController.updateAccountPassword)
+)
+
 module.exports = router

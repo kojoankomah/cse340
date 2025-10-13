@@ -128,32 +128,56 @@ async function buildClassificationList(classification_id = null) {
 * Middleware to check token validity
 **************************************** */
 Util.checkJWTToken = (req, res, next) => {
- if (req.cookies.jwt) {
-  jwt.verify(
-   req.cookies.jwt,
-   process.env.ACCESS_TOKEN_SECRET,
-   function (err, accountData) {
-    if (err) {
-     req.flash("Please log in")
-     res.clearCookie("jwt")
-     return res.redirect("/account/login")
-    }
-    res.locals.accountData = accountData
-    res.locals.loggedin = 1
+  if (req.cookies.jwt) {
+    jwt.verify(
+      req.cookies.jwt,
+      process.env.ACCESS_TOKEN_SECRET,
+      function (err, accountData) {
+        if (err) {
+          req.flash("notice", "Please log in")
+          res.clearCookie("jwt")
+          return res.redirect("/account/login")
+        }
+        res.locals.accountData = accountData
+        res.locals.loggedin = 1
+        next()
+      }
+    )
+  } else {
     next()
-   })
- } else {
-  next()
- }
+  }
 }
 
+/* ****************************************
+ * Middleware to make login status available in all views
+ **************************************** */
+Util.checkLoginStatus = (req, res, next) => {
+  const token = req.cookies.jwt
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+      res.locals.loggedin = true
+      res.locals.accountData = decoded
+    } catch (err) {
+      res.locals.loggedin = false
+      res.locals.accountData = null
+    }
+  } else {
+    res.locals.loggedin = false
+    res.locals.accountData = null
+  }
+  next()
+}
 
+/* ****************************************
+ * Export
+ **************************************** */
 module.exports = {
   getNav: Util.getNav,
   handleErrors: Util.handleErrors,
   buildClassificationGrid: Util.buildClassificationGrid,
   buildDetailView: Util.buildDetailView,
   buildClassificationList,
-  checkJWTToken: Util.checkJWTToken
+  checkJWTToken: Util.checkJWTToken,
+  checkLoginStatus: Util.checkLoginStatus
 }
-
