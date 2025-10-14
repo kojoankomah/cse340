@@ -303,6 +303,26 @@ async function updateAccountPassword(req, res, next) {
 }
 
 
+/* ****************************************
+ *  Logout Process
+ * *************************************** */
+async function logoutAccount(req, res) {
+  try {
+    // Clear the JWT cookie
+    res.clearCookie("jwt")
+
+    // Flash message
+    req.flash("notice", "You have successfully logged out.")
+
+    // Redirect to the home page
+    return res.redirect("/")
+  } catch (error) {
+    console.error("Logout error:", error)
+    req.flash("notice", "An error occurred during logout.")
+    return res.redirect("/account/")
+  }
+}
+
 module.exports = {
   buildLogin,
   buildRegister,
@@ -311,5 +331,6 @@ module.exports = {
   accountLogin,
   buildUpdateAccount,
   updateAccountInfo,
-  updateAccountPassword
+  updateAccountPassword,
+  logoutAccount
 }

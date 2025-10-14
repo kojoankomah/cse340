@@ -56,4 +56,9 @@ router.post(
   utilities.handleErrors(accountController.updateAccountPassword)
 )
 
+router.get("/logout",
+   utilities.checkJWTToken,
+   utilities.checkLoginStatus,
+   accountController.logoutAccount)
+
 module.exports = router
