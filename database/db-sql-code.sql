@@ -290,17 +290,19 @@ CREATE INDEX IF NOT EXISTS idx_message_date ON contact_message(message_date);
 
 
 
--- 1_create_reviews_table.sql
+-- -- 1_create_reviews_table.sql
 
-CREATE TABLE IF NOT EXISTS review (
-  review_id SERIAL PRIMARY KEY,
-  inv_id INTEGER NOT NULL REFERENCES inventory(inv_id) ON DELETE CASCADE,
-  account_id INTEGER NOT NULL REFERENCES account(account_id) ON DELETE CASCADE,
-  review_rating SMALLINT NOT NULL CHECK (review_rating BETWEEN 1 AND 5),
-  review_text TEXT NOT NULL,
-  review_date TIMESTAMP WITH TIME ZONE DEFAULT now()
-);
+-- CREATE TABLE IF NOT EXISTS review (
+--   review_id SERIAL PRIMARY KEY,
+--   inv_id INTEGER NOT NULL REFERENCES inventory(inv_id) ON DELETE CASCADE,
+--   account_id INTEGER NOT NULL REFERENCES account(account_id) ON DELETE CASCADE,
+--   review_rating SMALLINT NOT NULL CHECK (review_rating BETWEEN 1 AND 5),
+--   review_text TEXT NOT NULL,
+--   review_date TIMESTAMP WITH TIME ZONE DEFAULT now()
+-- );
 
 
--- Optional index to speed lookups per vehicle
-CREATE INDEX IF NOT EXISTS idx_review_inv_id ON review(inv_id);
+-- -- Optional index to speed lookups per vehicle
+-- CREATE INDEX IF NOT EXISTS idx_review_inv_id ON review(inv_id);
+
+-- DROP TABLE IF EXISTS review CASCADE;
