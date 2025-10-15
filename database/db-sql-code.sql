@@ -273,3 +273,34 @@ UPDATE inventory
     SET 
         inv_image = REPLACE(inv_image, '/images', '/images/vehicles'), 
         inv_thumbnail = REPLACE(inv_thumbnail, '/images', '/images/vehicles');
+
+
+CREATE TABLE IF NOT EXISTS contact_message (
+  message_id SERIAL PRIMARY KEY,
+  account_id INTEGER REFERENCES account(account_id) ON DELETE SET NULL,
+  message_name VARCHAR(100) NOT NULL,
+  message_email VARCHAR(100) NOT NULL,
+  message_subject VARCHAR(150),
+  message_body TEXT NOT NULL,
+  message_date TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+-- Optional index for faster sorting
+CREATE INDEX IF NOT EXISTS idx_message_date ON contact_message(message_date);
+
+
+
+-- 1_create_reviews_table.sql
+
+CREATE TABLE IF NOT EXISTS review (
+  review_id SERIAL PRIMARY KEY,
+  inv_id INTEGER NOT NULL REFERENCES inventory(inv_id) ON DELETE CASCADE,
+  account_id INTEGER NOT NULL REFERENCES account(account_id) ON DELETE CASCADE,
+  review_rating SMALLINT NOT NULL CHECK (review_rating BETWEEN 1 AND 5),
+  review_text TEXT NOT NULL,
+  review_date TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+
+-- Optional index to speed lookups per vehicle
+CREATE INDEX IF NOT EXISTS idx_review_inv_id ON review(inv_id);

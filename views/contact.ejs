@@ -1,0 +1,83 @@
+<!-- views/contact.ejs -->
+<div class="contact-page">
+  <h1>Contact Us</h1>
+
+  <% if (locals.messages && messages().notice) { %>
+    <div class="notice"><%= messages().notice %></div>
+  <% } %>
+
+  <form 
+    action="/contact/submit" 
+    method="POST" 
+    class="contact-form" 
+    novalidate 
+    onsubmit="return validateContactForm(event)"
+  >
+    <label for="message_name">Your Name*</label>
+    <input 
+      type="text" 
+      id="message_name" 
+      name="message_name" 
+      required 
+      minlength="3"
+      maxlength="60"
+      pattern="^[A-Za-z\s'-]+$"
+      placeholder="Enter your full name"
+      value="<%= accountData ? accountData.account_firstname + ' ' + accountData.account_lastname : '' %>"
+    >
+
+    <label for="message_email">Your Email*</label>
+    <input 
+      type="email" 
+      id="message_email" 
+      name="message_email" 
+      required 
+      placeholder="you@example.com"
+      value="<%= accountData ? accountData.account_email : '' %>"
+    >
+
+    <label for="message_subject">Subject</label>
+    <input 
+      type="text" 
+      id="message_subject" 
+      name="message_subject" 
+      maxlength="100"
+      placeholder="What’s your message about?"
+    >
+
+    <label for="message_body">Message*</label>
+    <textarea 
+      id="message_body" 
+      name="message_body" 
+      required 
+      minlength="10"
+      maxlength="1000"
+      placeholder="Type your message here..."
+    ></textarea>
+
+    <button type="submit">Send Message</button>
+  </form>
+
+  <script>
+    // Simple client-side validation script
+    function validateContactForm(event) {
+      const name = document.getElementById("message_name").value.trim();
+      const email = document.getElementById("message_email").value.trim();
+      const message = document.getElementById("message_body").value.trim();
+
+      if (!name || !email || !message) {
+        alert("Please fill out all required fields.");
+        event.preventDefault();
+        return false;
+      }
+
+      if (message.length < 10) {
+        alert("Your message should be at least 10 characters long.");
+        event.preventDefault();
+        return false;
+      }
+
+      return true;
+    }
+  </script>
+</div>
