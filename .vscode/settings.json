@@ -11,7 +11,7 @@
             "server": "localhost",
             "driver": "PostgreSQL",
             "name": "Render.com",
-            "connectString": "postgresql://cse340:z9l3ue09EHOdPfaRDudD26L1l7R9r81W@dpg-d34mund6ubrc73aept90-a.virginia-postgres.render.com/cse340_3mug"
+            "connectString": "postgresql://cse340:1bqSAwtOPN2kHkZH4qIfbfj9iWFYHHAl@dpg-d3oge96mcj7s73eulc4g-a.virginia-postgres.render.com/cse340_7g0v"
         }
     ],
     "liveServer.settings.port": 5501
